@@ -1,0 +1,271 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load calculator_tags %}
+
+{% block title %}Banklarni taqqoslash{% endblock %}
+
+{% block content %}
+<!-- ============================================
+     COMPARE HEADER
+     ============================================ -->
+<section class="compare-hero py-5">
+    <div class="container">
+        <div class="text-center mb-5 fade-in">
+            <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-4 py-2 mb-3">
+                <i class="bi bi-bank me-1"></i> Taqqoslash
+            </span>
+            <h1 class="section-title display-5 fw-bold">
+                Banklarni <span class="gradient-text">Taqqoslash</span>
+            </h1>
+            <p class="text-muted lead">
+                Bir nechta bank takliflarini solishtiring va eng foydalisini toping
+            </p>
+        </div>
+
+        <!-- Comparison Form -->
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-10">
+                <div class="glass-card p-4 fade-in" id="compareFormCard" style="border-radius: var(--radius-lg);">
+                    <form method="GET" action="{% url 'calculator:compare' %}" id="compareForm">
+                        <div class="row g-3 align-items-end">
+                            <div class="col-lg-4 col-md-6">
+                                <label for="compare_amount" class="form-label fw-semibold small">
+                                    <i class="bi bi-cash-coin me-1 text-accent"></i> Kredit summasi
+                                </label>
+                                <div class="input-group">
+                                    <input type="number" name="amount" id="compare_amount"
+                                           class="form-control"
+                                           placeholder="50 000 000"
+                                           value="{{ amount|default:'' }}"
+                                           min="100000" required>
+                                    <span class="input-group-text input-suffix">so'm</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4">
+                                <label for="compare_term" class="form-label fw-semibold small">
+                                    <i class="bi bi-calendar3 me-1 text-accent"></i> Muddat
+                                </label>
+                                <div class="input-group">
+                                    <input type="number" name="term_months" id="compare_term"
+                                           class="form-control"
+                                           placeholder="24"
+                                           value="{{ term_months|default:'' }}"
+                                           min="1" max="360" required>
+                                    <span class="input-group-text input-suffix">oy</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4">
+                                <label for="compare_type" class="form-label fw-semibold small">
+                                    <i class="bi bi-toggles me-1 text-accent"></i> To'lov turi
+                                </label>
+                                <select name="payment_type" id="compare_type" class="form-select">
+                                    <option value="annuity" {% if request.GET.payment_type == 'annuity' %}selected{% endif %}>
+                                        Annuitet
+                                    </option>
+                                    <option value="differential" {% if request.GET.payment_type == 'differential' %}selected{% endif %}>
+                                        Differensial
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-lg-2 col-md-4">
+                                <button type="submit" class="btn btn-gradient w-100 rounded-pill py-2">
+                                    <i class="bi bi-search me-1"></i> Taqqoslash
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
+     COMPARISON RESULTS
+     ============================================ -->
+{% if comparison_results %}
+<section class="comparison-results pb-5">
+    <div class="container">
+
+        <!-- Winner Card -->
+        {% with best=comparison_results.0 %}
+        {% if best %}
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-10">
+                <div class="winner-card fade-in" id="bestBankCard">
+                    <div class="winner-card-inner">
+                        <div class="winner-header">
+                            <div class="winner-trophy">
+                                <i class="bi bi-trophy-fill"></i>
+                            </div>
+                            <div>
+                                <span class="badge bg-success bg-opacity-75 rounded-pill px-3 mb-2">
+                                    <i class="bi bi-star-fill me-1"></i> Eng foydali kredit
+                                </span>
+                                <h3 class="fw-bold text-white mb-0">{{ best.bank.name }}</h3>
+                            </div>
+                        </div>
+
+                        <div class="winner-stats">
+                            <div class="winner-stat">
+                                <span class="winner-stat-label">Oylik to'lov</span>
+                                <span class="winner-stat-value text-success">{{ best.monthly_payment|format_currency }}</span>
+                            </div>
+                            <div class="winner-stat-divider"></div>
+                            <div class="winner-stat">
+                                <span class="winner-stat-label">Foiz stavkasi</span>
+                                <span class="winner-stat-value text-white">{{ best.rate }}%</span>
+                            </div>
+                            <div class="winner-stat-divider"></div>
+                            <div class="winner-stat">
+                                <span class="winner-stat-label">Ortiqcha to'lov</span>
+                                <span class="winner-stat-value text-warning">{{ best.overpayment|format_currency }}</span>
+                            </div>
+                        </div>
+
+                        {% if comparison_results|length > 1 %}
+                        {% with worst=comparison_results|last %}
+                        <div class="winner-savings">
+                            <i class="bi bi-piggy-bank me-2"></i>
+                            Eng qimmatiga nisbatan <strong>{{ worst.overpayment|format_currency }}</strong> o'rniga 
+                            <strong>{{ best.overpayment|format_currency }}</strong> to'laysiz!
+                        </div>
+                        {% endwith %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        <!-- Bank Cards Grid -->
+        <div class="row g-4">
+            {% for item in comparison_results %}
+            <div class="col-xl-4 col-lg-6 col-md-6 fade-in" style="animation-delay: {{ forloop.counter0 }}00ms">
+                <div class="compare-card h-100 
+                            {% if forloop.first %}compare-card--best{% endif %}
+                            {% if forloop.last and comparison_results|length > 1 %}compare-card--worst{% endif %}">
+                    
+                    <!-- Rank Badge -->
+                    <div class="compare-card-rank">
+                        {% if forloop.first %}
+                        <span class="rank-badge rank-badge--gold">
+                            <i class="bi bi-trophy-fill"></i>
+                        </span>
+                        {% elif forloop.counter == 2 %}
+                        <span class="rank-badge rank-badge--silver">
+                            <i class="bi bi-award"></i>
+                        </span>
+                        {% elif forloop.counter == 3 %}
+                        <span class="rank-badge rank-badge--bronze">
+                            <i class="bi bi-award-fill"></i>
+                        </span>
+                        {% else %}
+                        <span class="rank-badge rank-badge--default">
+                            #{{ forloop.counter }}
+                        </span>
+                        {% endif %}
+                    </div>
+
+                    <!-- Bank Header -->
+                    <div class="compare-card-header">
+                        <div class="compare-bank-icon 
+                                    {% if forloop.first %}compare-bank-icon--best{% endif %}">
+                            <i class="bi bi-bank2"></i>
+                        </div>
+                        <h5 class="fw-bold mb-0 mt-3">{{ item.bank.name }}</h5>
+                        <small class="text-muted">{{ item.bank.get_credit_type_display }}</small>
+                    </div>
+
+                    <!-- Rate Display -->
+                    <div class="compare-card-rate">
+                        <span class="rate-number 
+                               {% if forloop.first %}text-success{% elif forloop.last and comparison_results|length > 1 %}text-danger{% else %}text-accent{% endif %}">
+                            {{ item.rate }}%
+                        </span>
+                        <span class="rate-label">yillik stavka</span>
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="compare-card-divider"></div>
+
+                    <!-- Metrics -->
+                    <div class="compare-card-metrics">
+                        <div class="compare-metric-row">
+                            <span class="compare-metric-label">
+                                <i class="bi bi-calendar-check me-1"></i> Oylik to'lov
+                            </span>
+                            <span class="compare-metric-value">{{ item.monthly_payment|format_currency }}</span>
+                        </div>
+                        <div class="compare-metric-row">
+                            <span class="compare-metric-label">
+                                <i class="bi bi-cash-stack me-1"></i> Umumiy to'lov
+                            </span>
+                            <span class="compare-metric-value">{{ item.total_payment|format_currency }}</span>
+                        </div>
+                        <div class="compare-metric-row">
+                            <span class="compare-metric-label">
+                                <i class="bi bi-arrow-up-circle me-1"></i> Ortiqcha to'lov
+                            </span>
+                            <span class="compare-metric-value text-warning fw-bold">{{ item.overpayment|format_currency }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Foydalilik Progress -->
+                    {% if comparison_results|length > 1 %}
+                    <div class="compare-card-progress">
+                        <div class="d-flex justify-content-between mb-1">
+                            <small class="text-muted">Foydalilik</small>
+                            <small class="fw-bold {% if forloop.first %}text-success{% elif forloop.last %}text-danger{% else %}text-info{% endif %}">
+                                {% if forloop.first %}Eng yaxshi{% elif forloop.last %}Eng qimmat{% else %}O'rtacha{% endif %}
+                            </small>
+                        </div>
+                        <div class="progress progress-glass" style="height: 5px;">
+                            <div class="progress-bar 
+                                        {% if forloop.first %}bg-success{% elif forloop.last %}bg-danger{% else %}bg-info{% endif %}"
+                                 role="progressbar" 
+                                 style="width: {% widthratio forloop.revcounter comparison_results|length 100 %}%; border-radius: 10px;">
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Back Actions -->
+        <div class="text-center mt-5 fade-in">
+            <a href="{% url 'calculator:home' %}" class="btn btn-gradient btn-lg rounded-pill px-5">
+                <i class="bi bi-calculator me-2"></i> Kalkulyatorga qaytish
+            </a>
+        </div>
+    </div>
+</section>
+
+{% else %}
+<!-- Empty State -->
+<section class="empty-state py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 text-center">
+                <div class="glass-card p-5 fade-in">
+                    <div class="empty-icon mb-4">
+                        <i class="bi bi-bank2 display-1 text-primary opacity-25"></i>
+                    </div>
+                    <h3 class="fw-bold mb-3">Taqqoslash uchun ma'lumot kiriting</h3>
+                    <p class="text-muted mb-4">
+                        Yuqoridagi formaga kredit summasi va muddatini kiritib, 
+                        banklar takliflarini taqqoslang
+                    </p>
+                    <a href="{% url 'calculator:home' %}" class="btn btn-gradient rounded-pill px-4">
+                        <i class="bi bi-calculator me-2"></i> Kalkulyatordan boshlash
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

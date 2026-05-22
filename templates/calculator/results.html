@@ -1,0 +1,389 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load calculator_tags %}
+
+{% block title %}Natijalar{% endblock %}
+
+{% block content %}
+<!-- ============================================
+     RESULTS HERO
+     ============================================ -->
+<section class="results-hero py-5">
+    <div class="container">
+        <div class="text-center mb-4 fade-in">
+            <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-4 py-2 mb-3">
+                <i class="bi bi-check-circle-fill me-1"></i> Hisoblash tayyor
+            </span>
+            <h1 class="section-title display-5 fw-bold">
+                Kredit <span class="gradient-text">natijalari</span>
+            </h1>
+            <p class="text-muted">
+                {{ result.payment_type_display }} usulida 
+                {{ result.amount|format_currency }} so'm, {{ result.term_months }} oy muddatga
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
+     RESULTS SUMMARY CARDS
+     ============================================ -->
+<section class="results-summary pb-5">
+    <div class="container">
+        <div class="row g-4 mb-5">
+            <!-- Monthly Payment -->
+            <div class="col-lg-3 col-md-6 fade-in" style="animation-delay: 0ms">
+                <div class="glass-card result-metric-card p-4 text-center h-100">
+                    <div class="result-icon mb-3">
+                        <i class="bi bi-calendar-check text-primary fs-3"></i>
+                    </div>
+                    <p class="text-muted small mb-1 text-uppercase fw-semibold letter-spacing-1">Oylik to'lov</p>
+                    <h2 class="result-value fw-bold gradient-text mb-0 counter-animate" id="monthlyPayment">
+                        {{ result.monthly_payment|format_currency }}
+                    </h2>
+                    <small class="text-muted">so'm / oy</small>
+                </div>
+            </div>
+
+            <!-- Total Payment -->
+            <div class="col-lg-3 col-md-6 fade-in" style="animation-delay: 100ms">
+                <div class="glass-card result-metric-card p-4 text-center h-100">
+                    <div class="result-icon mb-3">
+                        <i class="bi bi-cash-stack text-info fs-3"></i>
+                    </div>
+                    <p class="text-muted small mb-1 text-uppercase fw-semibold letter-spacing-1">Umumiy to'lov</p>
+                    <h2 class="result-value fw-bold text-white mb-0 counter-animate" id="totalPayment">
+                        {{ result.total_payment|format_currency }}
+                    </h2>
+                    <small class="text-muted">so'm</small>
+                </div>
+            </div>
+
+            <!-- Overpayment -->
+            <div class="col-lg-3 col-md-6 fade-in" style="animation-delay: 200ms">
+                <div class="glass-card result-metric-card p-4 text-center h-100">
+                    <div class="result-icon mb-3">
+                        <i class="bi bi-arrow-up-circle text-warning fs-3"></i>
+                    </div>
+                    <p class="text-muted small mb-1 text-uppercase fw-semibold letter-spacing-1">Ortiqcha to'lov</p>
+                    <h2 class="result-value fw-bold text-warning mb-0 counter-animate" id="overpaymentAmount">
+                        {{ result.overpayment|format_currency }}
+                    </h2>
+                    <small class="text-muted">so'm</small>
+                </div>
+            </div>
+
+            <!-- Overpayment Percent -->
+            <div class="col-lg-3 col-md-6 fade-in" style="animation-delay: 300ms">
+                <div class="glass-card result-metric-card p-4 text-center h-100">
+                    <div class="result-icon mb-3">
+                        <i class="bi bi-pie-chart text-danger fs-3"></i>
+                    </div>
+                    <p class="text-muted small mb-1 text-uppercase fw-semibold letter-spacing-1">Ortiqcha foiz</p>
+                    <h2 class="result-value fw-bold text-danger mb-0 counter-animate" id="overpaymentPercent">
+                        {{ result.overpayment_percent }}%
+                    </h2>
+                    <span class="badge bg-{{ result.payment_type }}-subtle rounded-pill mt-2 px-3">
+                        {{ result.payment_type_display }}
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================
+             CHARTS SECTION
+             ============================================ -->
+        <div class="row g-4 mb-5">
+            <!-- Doughnut Chart: Payment Breakdown -->
+            <div class="col-lg-6 fade-in" style="animation-delay: 100ms">
+                <div class="glass-card chart-card p-4 h-100">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h5 class="fw-semibold mb-0">
+                            <i class="bi bi-pie-chart-fill me-2 text-primary"></i>To'lov tarkibi
+                        </h5>
+                        <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill">Diagramma</span>
+                    </div>
+                    <div class="chart-wrapper" style="position: relative; max-height: 350px;">
+                        <canvas id="paymentChart"
+                                data-amount="{{ result.amount }}"
+                                data-overpayment="{{ result.overpayment }}">
+                        </canvas>
+                    </div>
+                    <div class="d-flex justify-content-center gap-4 mt-3">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="chart-legend-dot" style="background: #2C74B3;"></span>
+                            <small class="text-muted">Asosiy qarz</small>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="chart-legend-dot" style="background: #F97316;"></span>
+                            <small class="text-muted">Ortiqcha to'lov</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Line Chart: Balance Decline -->
+            <div class="col-lg-6 fade-in" style="animation-delay: 200ms">
+                <div class="glass-card chart-card p-4 h-100">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h5 class="fw-semibold mb-0">
+                            <i class="bi bi-graph-down me-2 text-primary"></i>Qoldiq qarz kamayishi
+                        </h5>
+                        <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill">Dinamika</span>
+                    </div>
+                    <div class="chart-wrapper" style="position: relative; max-height: 350px;">
+                        <canvas id="balanceChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================
+             AMORTIZATION TABLE
+             ============================================ -->
+        <div class="glass-card p-4 mb-5 fade-in" id="amortizationSection">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h5 class="fw-semibold mb-0">
+                    <i class="bi bi-table me-2 text-primary"></i>To'lov jadvali
+                </h5>
+                <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill">
+                    {{ result.schedule|length }} oy
+                </span>
+            </div>
+
+            <div class="table-responsive amortization-table-wrapper">
+                <table class="table table-dark-custom align-middle mb-0" id="amortizationTable">
+                    <thead>
+                        <tr>
+                            <th class="text-center" style="width: 60px;">#</th>
+                            <th>To'lov</th>
+                            <th>Asosiy qarz</th>
+                            <th>Foiz</th>
+                            <th>Qoldiq</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in result.schedule %}
+                        <tr class="{% if forloop.counter > 12 %}schedule-hidden-row d-none{% endif %}">
+                            <td class="text-center">
+                                <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill">
+                                    {{ item.month }}
+                                </span>
+                            </td>
+                            <td class="fw-semibold">{{ item.payment|format_currency }}</td>
+                            <td>
+                                <span class="text-success">{{ item.principal|format_currency }}</span>
+                            </td>
+                            <td>
+                                <span class="text-warning">{{ item.interest|format_currency }}</span>
+                            </td>
+                            <td>
+                                <span class="text-info">{{ item.balance|format_currency }}</span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% if result.schedule|length > 12 %}
+            <div class="text-center mt-4">
+                <button type="button" class="btn btn-outline-primary rounded-pill px-4" id="showMoreScheduleBtn">
+                    <i class="bi bi-chevron-down me-1"></i>
+                    Ko'proq ko'rsatish 
+                    <span class="badge bg-primary ms-1">{{ result.schedule|length|add:"-12" }}</span>
+                </button>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- ============================================
+             ACTION BUTTONS
+             ============================================ -->
+        <div class="row justify-content-center fade-in">
+            <div class="col-lg-8">
+                <div class="d-flex flex-wrap justify-content-center gap-3">
+                    <a href="{% url 'calculator:home' %}" class="btn btn-gradient btn-lg rounded-pill px-4">
+                        <i class="bi bi-arrow-counterclockwise me-2"></i> Qayta hisoblash
+                    </a>
+                    <a href="{% url 'calculator:compare' %}" class="btn btn-outline-primary btn-lg rounded-pill px-4">
+                        <i class="bi bi-bank me-2"></i> Banklarni taqqoslash
+                    </a>
+                    <button type="button" class="btn btn-outline-secondary btn-lg rounded-pill px-4" onclick="window.print()">
+                        <i class="bi bi-printer me-2"></i> Chop etish
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Chart.js Data from Django context
+    const chartData = {
+        amount: {{ result.amount }},
+        overpayment: {{ result.overpayment }},
+        schedule: [
+            {% for item in result.schedule %}
+            {
+                month: {{ item.month }},
+                payment: {{ item.payment }},
+                principal: {{ item.principal }},
+                interest: {{ item.interest }},
+                balance: {{ item.balance }}
+            }{% if not forloop.last %},{% endif %}
+            {% endfor %}
+        ]
+    };
+
+    // --- Doughnut Chart: Payment Breakdown ---
+    const paymentCtx = document.getElementById('paymentChart');
+    if (paymentCtx) {
+        new Chart(paymentCtx.getContext('2d'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Asosiy qarz', 'Ortiqcha to\'lov'],
+                datasets: [{
+                    data: [chartData.amount, chartData.overpayment],
+                    backgroundColor: [
+                        'rgba(44, 116, 179, 0.85)',
+                        'rgba(249, 115, 22, 0.85)'
+                    ],
+                    borderColor: [
+                        'rgba(44, 116, 179, 1)',
+                        'rgba(249, 115, 22, 1)'
+                    ],
+                    borderWidth: 2,
+                    hoverOffset: 12
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                cutout: '65%',
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(10, 38, 71, 0.95)',
+                        titleFont: { family: 'Inter', size: 13 },
+                        bodyFont: { family: 'Inter', size: 12 },
+                        padding: 12,
+                        cornerRadius: 8,
+                        callbacks: {
+                            label: function(context) {
+                                const val = context.parsed;
+                                return ' ' + val.toLocaleString('uz-UZ') + ' so\'m';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // --- Line Chart: Balance Decline ---
+    const balanceCtx = document.getElementById('balanceChart');
+    if (balanceCtx && chartData.schedule.length > 0) {
+        const labels = chartData.schedule.map(item => item.month + '-oy');
+        const balances = chartData.schedule.map(item => item.balance);
+        const principals = chartData.schedule.map(item => item.principal);
+        const interests = chartData.schedule.map(item => item.interest);
+
+        new Chart(balanceCtx.getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Qoldiq qarz',
+                        data: balances,
+                        borderColor: 'rgba(44, 116, 179, 1)',
+                        backgroundColor: 'rgba(44, 116, 179, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: labels.length > 36 ? 0 : 3,
+                        pointHoverRadius: 6,
+                        borderWidth: 2.5
+                    },
+                    {
+                        label: 'Foiz',
+                        data: interests,
+                        borderColor: 'rgba(249, 115, 22, 0.8)',
+                        backgroundColor: 'rgba(249, 115, 22, 0.05)',
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 0,
+                        pointHoverRadius: 5,
+                        borderWidth: 2
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: 'rgba(255,255,255,0.5)',
+                            font: { family: 'Inter', size: 10 },
+                            maxTicksLimit: 12
+                        },
+                        grid: { color: 'rgba(255,255,255,0.05)' }
+                    },
+                    y: {
+                        ticks: {
+                            color: 'rgba(255,255,255,0.5)',
+                            font: { family: 'Inter', size: 10 },
+                            callback: function(value) {
+                                if (value >= 1e9) return (value / 1e9).toFixed(1) + 'B';
+                                if (value >= 1e6) return (value / 1e6).toFixed(1) + 'M';
+                                if (value >= 1e3) return (value / 1e3).toFixed(0) + 'K';
+                                return value;
+                            }
+                        },
+                        grid: { color: 'rgba(255,255,255,0.05)' }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'rgba(255,255,255,0.7)',
+                            font: { family: 'Inter', size: 11 },
+                            usePointStyle: true,
+                            pointStyle: 'circle'
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(10, 38, 71, 0.95)',
+                        titleFont: { family: 'Inter', size: 13 },
+                        bodyFont: { family: 'Inter', size: 12 },
+                        padding: 12,
+                        cornerRadius: 8,
+                        callbacks: {
+                            label: function(context) {
+                                return ' ' + context.dataset.label + ': ' + context.parsed.y.toLocaleString('uz-UZ') + ' so\'m';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // --- Show More Schedule Rows ---
+    const showMoreBtn = document.getElementById('showMoreScheduleBtn');
+    if (showMoreBtn) {
+        showMoreBtn.addEventListener('click', function() {
+            const hiddenRows = document.querySelectorAll('.schedule-hidden-row');
+            hiddenRows.forEach(row => row.classList.remove('d-none'));
+            this.style.display = 'none';
+        });
+    }
+</script>
+{% endblock %}

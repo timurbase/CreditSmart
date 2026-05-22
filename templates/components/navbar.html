@@ -1,0 +1,39 @@
+<!-- CreditSmart Navbar -->
+<nav class="navbar navbar-expand-lg navbar-credit" id="mainNavbar">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'calculator:home' %}">
+            <span class="brand-icon gradient-text"><i class="bi bi-graph-up-arrow"></i></span>
+            <span>Credit<span class="gradient-text">Smart</span></span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto me-3 gap-1">
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}"
+                       href="{% url 'calculator:home' %}">
+                        <i class="bi bi-calculator me-1"></i> Kalkulyator
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'compare' %}active{% endif %}"
+                       href="{% url 'calculator:compare' %}">
+                        <i class="bi bi-bank me-1"></i> Banklar
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}"
+                       href="{% url 'calculator:about' %}">
+                        <i class="bi bi-info-circle me-1"></i> Haqida
+                    </a>
+                </li>
+            </ul>
+            <a href="{% url 'calculator:home' %}#calculatorSection" class="btn btn-nav-cta">
+                <i class="bi bi-lightning-charge-fill me-1"></i> Hisoblash
+            </a>
+        </div>
+    </div>
+</nav>

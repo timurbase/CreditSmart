@@ -1,0 +1,499 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Haqida{% endblock %}
+
+{% block content %}
+<!-- ============================================
+     ABOUT HERO
+     ============================================ -->
+<section class="about-hero py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8 mx-auto text-center">
+                <div class="fade-in">
+                    <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-4 py-2 mb-3">
+                        <i class="bi bi-info-circle me-1"></i> Loyiha haqida
+                    </span>
+                    <h1 class="display-4 fw-bold mb-4">
+                        <span class="gradient-text">CreditSmart</span> — Kredit va<br>
+                        Ipoteka Kalkulyatori
+                    </h1>
+                    <p class="lead text-muted mb-4 mx-auto" style="max-width: 650px;">
+                        CreditSmart — bu O'zbekiston banklari kredit takliflarini tahlil qilish va 
+                        eng foydali kreditni topish uchun yaratilgan zamonaviy veb-ilova. 
+                        Universitetlar uchun startup loyiha sifatida ishlab chiqilgan.
+                    </p>
+                    <div class="d-flex flex-wrap justify-content-center gap-3">
+                        <a href="{% url 'calculator:home' %}" class="btn btn-gradient btn-lg rounded-pill px-5">
+                            <i class="bi bi-calculator me-2"></i> Kalkulyatorni sinash
+                        </a>
+                        <a href="#formulasSection" class="btn btn-outline-primary btn-lg rounded-pill px-5">
+                            <i class="bi bi-book me-2"></i> Formulalarni ko'rish
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
+     FEATURES OVERVIEW
+     ============================================ -->
+<section class="about-features py-5">
+    <div class="container">
+        <div class="text-center mb-5 fade-in">
+            <h2 class="section-title fw-bold">
+                Asosiy <span class="gradient-text">imkoniyatlar</span>
+            </h2>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6 fade-in" style="animation-delay: 0ms">
+                <div class="glass-card h-100 p-4">
+                    <div class="feature-icon-wrapper mb-3">
+                        <i class="bi bi-calculator-fill"></i>
+                    </div>
+                    <h5 class="fw-semibold mb-2">Aniq hisob-kitob</h5>
+                    <p class="text-muted small mb-0">
+                        Matematik formulalar asosida annuitet va differensial to'lovlarni 
+                        tiyingacha aniq hisoblash. Bank formulalari bilan 99.9% mos keladi.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 fade-in" style="animation-delay: 100ms">
+                <div class="glass-card h-100 p-4">
+                    <div class="feature-icon-wrapper mb-3">
+                        <i class="bi bi-bar-chart-line-fill"></i>
+                    </div>
+                    <h5 class="fw-semibold mb-2">Vizual tahlil</h5>
+                    <p class="text-muted small mb-0">
+                        Chart.js orqali interaktiv diagrammalar — to'lov tarkibi, 
+                        qoldiq qarz dinamikasi va boshqa muhim ko'rsatkichlar.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 fade-in" style="animation-delay: 200ms">
+                <div class="glass-card h-100 p-4">
+                    <div class="feature-icon-wrapper mb-3">
+                        <i class="bi bi-bank2"></i>
+                    </div>
+                    <h5 class="fw-semibold mb-2">Bank taqqoslash</h5>
+                    <p class="text-muted small mb-0">
+                        O'zbekiston yetakchi banklarining kredit takliflarini bir sahifada 
+                        taqqoslang va eng foydalisini tanlang.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 fade-in" style="animation-delay: 300ms">
+                <div class="glass-card h-100 p-4">
+                    <div class="feature-icon-wrapper mb-3">
+                        <i class="bi bi-table"></i>
+                    </div>
+                    <h5 class="fw-semibold mb-2">To'lov jadvali</h5>
+                    <p class="text-muted small mb-0">
+                        Har oylik to'lovlar jadvalini ko'ring: asosiy qarz, foiz ulushi 
+                        va qoldiq summa bo'yicha batafsil ma'lumot.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 fade-in" style="animation-delay: 400ms">
+                <div class="glass-card h-100 p-4">
+                    <div class="feature-icon-wrapper mb-3">
+                        <i class="bi bi-phone-fill"></i>
+                    </div>
+                    <h5 class="fw-semibold mb-2">Mobil qulay</h5>
+                    <p class="text-muted small mb-0">
+                        Barcha qurilmalarda mukammal ko'rinish. Telefoningizdan ham 
+                        tezkor hisob-kitob qilishingiz mumkin.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 fade-in" style="animation-delay: 500ms">
+                <div class="glass-card h-100 p-4">
+                    <div class="feature-icon-wrapper mb-3">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+                    <h5 class="fw-semibold mb-2">Xavfsiz va tezkor</h5>
+                    <p class="text-muted small mb-0">
+                        Shaxsiy ma'lumotlar saqlanmaydi. Barcha hisob-kitoblar 
+                        serverda bir lahzada bajariladi.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
+     MATH FORMULAS SECTION
+     ============================================ -->
+<section class="formulas-section py-5" id="formulasSection">
+    <div class="container">
+        <div class="text-center mb-5 fade-in">
+            <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2 mb-3">
+                <i class="bi bi-book me-1"></i> Formulalar
+            </span>
+            <h2 class="section-title fw-bold">
+                Matematik <span class="gradient-text">formulalar</span>
+            </h2>
+            <p class="text-muted">Kredit hisob-kitoblarida qo'llaniladigan asosiy formulalar</p>
+        </div>
+
+        <div class="row g-4">
+            <!-- Annuity Formula -->
+            <div class="col-lg-6 fade-in" style="animation-delay: 0ms">
+                <div class="glass-card formula-card h-100 p-4 p-lg-5">
+                    <div class="d-flex align-items-center gap-2 mb-4">
+                        <div class="formula-badge">
+                            <i class="bi bi-arrow-repeat"></i>
+                        </div>
+                        <div>
+                            <h4 class="fw-bold mb-0">Annuitet to'lov</h4>
+                            <small class="text-muted">Bir xil oylik to'lov</small>
+                        </div>
+                    </div>
+
+                    <div class="formula-display glass-card p-4 mb-4 text-center">
+                        <div class="formula-text">
+                            <span class="fw-bold fs-4 text-white">P</span>
+                            <span class="text-muted fs-4"> = </span>
+                            <span class="text-white fs-4">S &times; </span>
+                            <span class="formula-fraction">
+                                <span class="formula-numerator">r &times; (1 + r)<sup>n</sup></span>
+                                <span class="formula-denominator">(1 + r)<sup>n</sup> - 1</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="formula-legend">
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <span class="badge bg-primary bg-opacity-25 text-white px-2">P</span>
+                            <small class="text-muted">— oylik to'lov summasi</small>
+                        </div>
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <span class="badge bg-primary bg-opacity-25 text-white px-2">S</span>
+                            <small class="text-muted">— kredit summasi</small>
+                        </div>
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <span class="badge bg-primary bg-opacity-25 text-white px-2">r</span>
+                            <small class="text-muted">— oylik foiz stavkasi (yillik / 12)</small>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-primary bg-opacity-25 text-white px-2">n</span>
+                            <small class="text-muted">— kredit muddati (oylar)</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Differential Formula -->
+            <div class="col-lg-6 fade-in" style="animation-delay: 100ms">
+                <div class="glass-card formula-card h-100 p-4 p-lg-5">
+                    <div class="d-flex align-items-center gap-2 mb-4">
+                        <div class="formula-badge">
+                            <i class="bi bi-graph-down"></i>
+                        </div>
+                        <div>
+                            <h4 class="fw-bold mb-0">Differensial to'lov</h4>
+                            <small class="text-muted">Kamayib boruvchi to'lov</small>
+                        </div>
+                    </div>
+
+                    <div class="formula-display glass-card p-4 mb-4 text-center">
+                        <div class="formula-text mb-3">
+                            <span class="fw-bold fs-4 text-white">P<sub>k</sub></span>
+                            <span class="text-muted fs-4"> = </span>
+                            <span class="formula-fraction">
+                                <span class="formula-numerator">S</span>
+                                <span class="formula-denominator">n</span>
+                            </span>
+                            <span class="text-white fs-4"> + S<sub>k</sub> &times; r</span>
+                        </div>
+                    </div>
+
+                    <div class="formula-legend">
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <span class="badge bg-primary bg-opacity-25 text-white px-2">P<sub>k</sub></span>
+                            <small class="text-muted">— k-oy uchun to'lov summasi</small>
+                        </div>
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <span class="badge bg-primary bg-opacity-25 text-white px-2">S</span>
+                            <small class="text-muted">— kredit summasi</small>
+                        </div>
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <span class="badge bg-primary bg-opacity-25 text-white px-2">S<sub>k</sub></span>
+                            <small class="text-muted">— k-oydagi qoldiq qarz</small>
+                        </div>
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <span class="badge bg-primary bg-opacity-25 text-white px-2">r</span>
+                            <small class="text-muted">— oylik foiz stavkasi</small>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-primary bg-opacity-25 text-white px-2">n</span>
+                            <small class="text-muted">— kredit muddati (oylar)</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
+     TECHNOLOGY STACK
+     ============================================ -->
+<section class="tech-section py-5" id="techSection">
+    <div class="container">
+        <div class="text-center mb-5 fade-in">
+            <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2 mb-3">
+                <i class="bi bi-code-slash me-1"></i> Texnologiyalar
+            </span>
+            <h2 class="section-title fw-bold">
+                Texnologik <span class="gradient-text">stek</span>
+            </h2>
+            <p class="text-muted">Zamonaviy va ishonchli texnologiyalar asosida yaratilgan</p>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            <div class="col-lg-2 col-md-3 col-4 fade-in" style="animation-delay: 0ms">
+                <div class="glass-card tech-card p-3 text-center h-100">
+                    <div class="tech-icon mb-2">
+                        <i class="bi bi-filetype-py fs-2 text-success"></i>
+                    </div>
+                    <h6 class="fw-semibold mb-0 small">Python</h6>
+                    <small class="text-muted" style="font-size: 0.7rem;">3.12+</small>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-3 col-4 fade-in" style="animation-delay: 50ms">
+                <div class="glass-card tech-card p-3 text-center h-100">
+                    <div class="tech-icon mb-2">
+                        <i class="bi bi-gear-fill fs-2 text-success"></i>
+                    </div>
+                    <h6 class="fw-semibold mb-0 small">Django</h6>
+                    <small class="text-muted" style="font-size: 0.7rem;">5.x</small>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-3 col-4 fade-in" style="animation-delay: 100ms">
+                <div class="glass-card tech-card p-3 text-center h-100">
+                    <div class="tech-icon mb-2">
+                        <i class="bi bi-bootstrap-fill fs-2 text-primary"></i>
+                    </div>
+                    <h6 class="fw-semibold mb-0 small">Bootstrap</h6>
+                    <small class="text-muted" style="font-size: 0.7rem;">5.3</small>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-3 col-4 fade-in" style="animation-delay: 150ms">
+                <div class="glass-card tech-card p-3 text-center h-100">
+                    <div class="tech-icon mb-2">
+                        <i class="bi bi-bar-chart-fill fs-2 text-warning"></i>
+                    </div>
+                    <h6 class="fw-semibold mb-0 small">Chart.js</h6>
+                    <small class="text-muted" style="font-size: 0.7rem;">4.x</small>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-3 col-4 fade-in" style="animation-delay: 200ms">
+                <div class="glass-card tech-card p-3 text-center h-100">
+                    <div class="tech-icon mb-2">
+                        <i class="bi bi-filetype-html fs-2 text-danger"></i>
+                    </div>
+                    <h6 class="fw-semibold mb-0 small">HTML/CSS</h6>
+                    <small class="text-muted" style="font-size: 0.7rem;">ES6+</small>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-3 col-4 fade-in" style="animation-delay: 250ms">
+                <div class="glass-card tech-card p-3 text-center h-100">
+                    <div class="tech-icon mb-2">
+                        <i class="bi bi-database-fill fs-2 text-info"></i>
+                    </div>
+                    <h6 class="fw-semibold mb-0 small">SQLite</h6>
+                    <small class="text-muted" style="font-size: 0.7rem;">DB</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
+     TEAM SECTION
+     ============================================ -->
+<section class="team-section py-5" id="teamSection">
+    <div class="container">
+        <div class="text-center mb-5 fade-in">
+            <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2 mb-3">
+                <i class="bi bi-people me-1"></i> Jamoa
+            </span>
+            <h2 class="section-title fw-bold">
+                Bizning <span class="gradient-text">jamoa</span>
+            </h2>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            <div class="col-lg-3 col-md-4 col-sm-6 fade-in">
+                <div class="glass-card team-card p-4 text-center h-100">
+                    <div class="team-avatar mb-3 mx-auto">
+                        <i class="bi bi-person-fill fs-1"></i>
+                    </div>
+                    <h5 class="fw-semibold mb-1">Loyiha rahbari</h5>
+                    <p class="text-primary small mb-2">Full-stack Developer</p>
+                    <p class="text-muted small mb-0">Django, Bootstrap, Chart.js</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 fade-in" style="animation-delay: 100ms">
+                <div class="glass-card team-card p-4 text-center h-100">
+                    <div class="team-avatar mb-3 mx-auto">
+                        <i class="bi bi-person-fill fs-1"></i>
+                    </div>
+                    <h5 class="fw-semibold mb-1">Jamoa a'zosi</h5>
+                    <p class="text-primary small mb-2">UI/UX Designer</p>
+                    <p class="text-muted small mb-0">Figma, Bootstrap, CSS</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 fade-in" style="animation-delay: 200ms">
+                <div class="glass-card team-card p-4 text-center h-100">
+                    <div class="team-avatar mb-3 mx-auto">
+                        <i class="bi bi-person-fill fs-1"></i>
+                    </div>
+                    <h5 class="fw-semibold mb-1">Jamoa a'zosi</h5>
+                    <p class="text-primary small mb-2">Data Analyst</p>
+                    <p class="text-muted small mb-0">Python, Ma'lumotlar tahlili</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
+     FUTURE PLANS
+     ============================================ -->
+<section class="future-section py-5" id="futurePlans">
+    <div class="container">
+        <div class="text-center mb-5 fade-in">
+            <span class="badge bg-warning bg-opacity-10 text-warning rounded-pill px-3 py-2 mb-3">
+                <i class="bi bi-rocket-takeoff me-1"></i> Kelajak rejalar
+            </span>
+            <h2 class="section-title fw-bold">
+                Rivojlanish <span class="gradient-text">rejasi</span>
+            </h2>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            <div class="col-lg-8">
+                <div class="glass-card p-4 fade-in">
+                    <div class="timeline">
+                        <!-- Phase 1 -->
+                        <div class="timeline-item mb-4">
+                            <div class="d-flex align-items-start gap-3">
+                                <div class="timeline-dot bg-success"></div>
+                                <div>
+                                    <span class="badge bg-success bg-opacity-10 text-success rounded-pill mb-2">
+                                        ✅ Bajarildi
+                                    </span>
+                                    <h5 class="fw-semibold mb-1">1-bosqich: Asosiy kalkulyator</h5>
+                                    <p class="text-muted small mb-0">
+                                        Annuitet va differensial hisoblash, to'lov jadvali, grafiklar
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Phase 2 -->
+                        <div class="timeline-item mb-4">
+                            <div class="d-flex align-items-start gap-3">
+                                <div class="timeline-dot bg-primary"></div>
+                                <div>
+                                    <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill mb-2">
+                                        🔄 Jarayonda
+                                    </span>
+                                    <h5 class="fw-semibold mb-1">2-bosqich: Bank integratsiyasi</h5>
+                                    <p class="text-muted small mb-0">
+                                        O'zbekiston banklari ma'lumotlar bazasi, real-time stavkalar
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Phase 3 -->
+                        <div class="timeline-item mb-4">
+                            <div class="d-flex align-items-start gap-3">
+                                <div class="timeline-dot bg-warning"></div>
+                                <div>
+                                    <span class="badge bg-warning bg-opacity-10 text-warning rounded-pill mb-2">
+                                        📋 Rejalashtirilgan
+                                    </span>
+                                    <h5 class="fw-semibold mb-1">3-bosqich: To'lov tizimlari</h5>
+                                    <p class="text-muted small mb-0">
+                                        Payme, Click, Uzum integratsiyasi. Kredit arizasini onlayn yuborish.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Phase 4 -->
+                        <div class="timeline-item">
+                            <div class="d-flex align-items-start gap-3">
+                                <div class="timeline-dot bg-info"></div>
+                                <div>
+                                    <span class="badge bg-info bg-opacity-10 text-info rounded-pill mb-2">
+                                        🚀 Kelajak
+                                    </span>
+                                    <h5 class="fw-semibold mb-1">4-bosqich: AI tavsiyalar</h5>
+                                    <p class="text-muted small mb-0">
+                                        Sun'iy intellekt yordamida shaxsiylashtirilgan kredit tavsiyalari, 
+                                        moliyaviy rejalashtirish vositasi.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
+     CONTACT SECTION
+     ============================================ -->
+<section class="contact-section py-5" id="contactSection">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 text-center fade-in">
+                <div class="glass-card p-5">
+                    <div class="contact-icon mb-4">
+                        <i class="bi bi-envelope-paper-fill display-4 gradient-text"></i>
+                    </div>
+                    <h3 class="fw-bold mb-3">Bog'lanish</h3>
+                    <p class="text-muted mb-4">
+                        Savol, taklif yoki hamkorlik uchun biz bilan bog'laning
+                    </p>
+                    <div class="d-flex flex-column gap-3 mb-4">
+                        <div class="d-flex align-items-center justify-content-center gap-2">
+                            <i class="bi bi-envelope text-primary"></i>
+                            <a href="mailto:info@creditsmart.uz" class="text-muted text-decoration-none">
+                                info@creditsmart.uz
+                            </a>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-center gap-2">
+                            <i class="bi bi-geo-alt text-primary"></i>
+                            <span class="text-muted">Toshkent, O'zbekiston</span>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="#" class="social-icon-link" aria-label="GitHub">
+                            <i class="bi bi-github fs-5"></i>
+                        </a>
+                        <a href="#" class="social-icon-link" aria-label="Telegram">
+                            <i class="bi bi-telegram fs-5"></i>
+                        </a>
+                        <a href="#" class="social-icon-link" aria-label="LinkedIn">
+                            <i class="bi bi-linkedin fs-5"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

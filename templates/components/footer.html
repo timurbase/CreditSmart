@@ -1,0 +1,74 @@
+<!-- CreditSmart Footer -->
+<footer class="site-footer">
+    <div class="container">
+        <div class="row g-4">
+            <!-- Company Info -->
+            <div class="col-lg-4 col-md-6">
+                <div class="footer-brand">
+                    <i class="bi bi-graph-up-arrow gradient-text"></i>
+                    Credit<span class="gradient-text">Smart</span>
+                </div>
+                <p class="text-muted small mb-3" style="max-width: 280px;">
+                    Kredit va ipoteka hisob-kitoblarini matematik formulalar asosida
+                    aniq hisoblab beruvchi zamonaviy fintech platforma.
+                </p>
+                <span class="badge bg-white bg-opacity-10 text-white-50 rounded-pill px-3 py-1">
+                    <i class="bi bi-mortarboard me-1"></i> Universitetlar uchun startup loyiha
+                </span>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="col-lg-2 col-md-6">
+                <h6 class="fw-bold mb-3 text-white">Sahifalar</h6>
+                <a href="{% url 'calculator:home' %}" class="footer-link">
+                    <i class="bi bi-chevron-right small me-1"></i> Kalkulyator
+                </a>
+                <a href="{% url 'calculator:compare' %}" class="footer-link">
+                    <i class="bi bi-chevron-right small me-1"></i> Banklar
+                </a>
+                <a href="{% url 'calculator:about' %}" class="footer-link">
+                    <i class="bi bi-chevron-right small me-1"></i> Haqida
+                </a>
+            </div>
+
+            <!-- Features -->
+            <div class="col-lg-3 col-md-6">
+                <h6 class="fw-bold mb-3 text-white">Xususiyatlar</h6>
+                <a href="#" class="footer-link"><i class="bi bi-check2 text-success me-1"></i> Annuitet hisoblash</a>
+                <a href="#" class="footer-link"><i class="bi bi-check2 text-success me-1"></i> Differensial hisoblash</a>
+                <a href="#" class="footer-link"><i class="bi bi-check2 text-success me-1"></i> Amortizatsiya jadvali</a>
+                <a href="#" class="footer-link"><i class="bi bi-check2 text-success me-1"></i> Bank taqqoslash</a>
+            </div>
+
+            <!-- Social -->
+            <div class="col-lg-3 col-md-6">
+                <h6 class="fw-bold mb-3 text-white">Aloqa</h6>
+                <div class="d-flex gap-2 mb-3">
+                    <a href="#" class="social-icon" title="GitHub">
+                        <i class="bi bi-github"></i>
+                    </a>
+                    <a href="#" class="social-icon" title="Telegram">
+                        <i class="bi bi-telegram"></i>
+                    </a>
+                    <a href="#" class="social-icon" title="LinkedIn">
+                        <i class="bi bi-linkedin"></i>
+                    </a>
+                </div>
+                <p class="text-muted small mb-0">
+                    <i class="bi bi-envelope me-1"></i> info@creditsmart.uz
+                </p>
+            </div>
+        </div>
+
+        <hr class="border-secondary border-opacity-25 my-4">
+
+        <div class="d-flex flex-wrap justify-content-between align-items-center">
+            <p class="text-muted small mb-0">
+                &copy; 2024-2025 CreditSmart. Barcha huquqlar himoyalangan.
+            </p>
+            <p class="text-muted small mb-0">
+                Django + Bootstrap + Chart.js bilan yaratilgan
+            </p>
+        </div>
+    </div>
+</footer>
